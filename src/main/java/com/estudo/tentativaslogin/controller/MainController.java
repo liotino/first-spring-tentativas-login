@@ -22,12 +22,4 @@ public class MainController {
        return ResponseEntity.ok("Success Login");
    }
 
-   @PostMapping("auth")
-   public ResponseEntity<String> authPositivation(@RequestBody RetryLogin retryLogin) {
-
-      return null;
-
-   }
-
-
 }
