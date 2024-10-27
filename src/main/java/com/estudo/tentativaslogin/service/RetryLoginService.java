@@ -122,14 +122,12 @@ public class RetryLoginService {
         var retryLogin = retryLogins.stream().reduce((a, b) -> b)
                 .orElse(null);
 
+        LocalDateTime timeRetry = retryLogin.getTime().plusSeconds(30);
 
-        var seconds = retryLogin.getTime().getSecond();
-        var currentSecond = LocalDateTime.now().plusSeconds(30).getSecond();
+        log.info("time-retry: ",timeRetry);
+        log.info("time-current: ", LocalDateTime.now());
 
-        log.info("seconds: ",seconds);
-        log.info("currentSeconds: ", currentSecond);
-
-        if(retryLogin.getTime().isBefore(LocalDateTime.now().plusSeconds(30))) {
+        if(LocalDateTime.now().isAfter(timeRetry)) {
 
             retryLoginRepository.removeAllByDocumentNumber(retryLogins);
 
