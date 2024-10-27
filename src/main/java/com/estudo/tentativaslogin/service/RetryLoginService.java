@@ -24,6 +24,9 @@ public class RetryLoginService {
     @Value("${user.birthDate}")
     String birthDate;
 
+    @Value("${retry.travaloginseconds}")
+    String retryTimeBlockLogin;
+
     @Autowired
     RetryLoginRepository retryLoginRepository;
 
@@ -53,8 +56,8 @@ public class RetryLoginService {
 
     public void reytryLoginTimes(RetryLogin retryLogin) {
 
-        var lastCountMax = getMaxLoginAttenptes(retryLogin.getDocumentNumber()).orElse(null);
-        log.info("lastCount {}", lastCountMax);
+         var lastCountMax = getMaxLoginAttenptes(retryLogin.getDocumentNumber()).orElse(null);
+         log.info("lastCount {}", lastCountMax);
 
          var retryL = retryLogin;
          retryL.setCount(autoIncrement(lastCountMax));
@@ -62,7 +65,7 @@ public class RetryLoginService {
 
          retryL.setTime(LocalDateTime.now());
          add(retryL);
-         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dados Invalidos");
+         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dados Invalidos tentativa:" + retryLogin.getCount());
 
     }
 
@@ -122,7 +125,7 @@ public class RetryLoginService {
         var retryLogin = retryLogins.stream().reduce((a, b) -> b)
                 .orElse(null);
 
-        var timeRetry = retryLogin.getTime().plusSeconds(30);
+        var timeRetry = retryLogin.getTime().plusSeconds(Integer.valueOf(retryTimeBlockLogin));
 
         if(LocalDateTime.now().isAfter(timeRetry)) {
 
@@ -133,7 +136,7 @@ public class RetryLoginService {
         }else{
 
             log.info("Obj retry Antes False login travado : {}",retryLogin);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Numero tentativas excedeu...aguardar");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Numero tentativas excedeu ...aguardar: " + retryTimeBlockLogin + "seconds");
 
         }
 
