@@ -124,9 +124,6 @@ public class RetryLoginService {
 
         var timeRetry = retryLogin.getTime().plusSeconds(30);
 
-        log.info("time-retry: ",timeRetry);
-        log.info("time-current: ", LocalDateTime.now());
-
         if(LocalDateTime.now().isAfter(timeRetry)) {
 
             retryLoginRepository.removeAllByDocumentNumber(retryLogins);
