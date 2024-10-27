@@ -65,7 +65,15 @@ public class RetryLoginService {
 
          retryL.setTime(LocalDateTime.now());
          add(retryL);
-         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dados Invalidos tentativa:" + retryLogin.getCount());
+
+         if(retryLogin.getCount() >= 3) {
+
+             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                     "Dados Invalidos tentativa: " + retryLogin.getCount() + " Login Travado! aguardar " + retryTimeBlockLogin + " segundos");
+
+         }
+
+         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dados Invalidos tentativa: " + retryLogin.getCount());
 
     }
 
