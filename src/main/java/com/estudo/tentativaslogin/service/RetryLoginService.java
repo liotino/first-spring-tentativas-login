@@ -54,7 +54,7 @@ public class RetryLoginService {
         }
     }
 
-    public void reytryLoginTimes(RetryLogin retryLogin) {
+    private void reytryLoginTimes(RetryLogin retryLogin) {
 
          var lastCountMax = getMaxLoginAttenptes(retryLogin.getDocumentNumber()).orElse(null);
          log.info("lastCount {}", lastCountMax);
