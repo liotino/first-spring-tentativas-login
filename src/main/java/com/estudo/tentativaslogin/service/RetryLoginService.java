@@ -38,7 +38,7 @@ public class RetryLoginService {
 
             }else {
 
-                log.error("Cpf Igual data basciemnto nao 400 error add{}", retryLogin);
+                log.error("Cpf Igual data nascimento nao 400 error add{}", retryLogin);
                 reytryLoginTimes(retryLogin);
 
             }
@@ -116,13 +116,13 @@ public class RetryLoginService {
 
       List<RetryLogin> retryLogins = retryLoginRepository.getRetryBylogin(documentNumber);
 
-        if(retryLogins.size() >= 3) {
+        if(retryLogins.size() >= 2) {
 
         //pegando o ultimo da lista
         var retryLogin = retryLogins.stream().reduce((a, b) -> b)
                 .orElse(null);
 
-        LocalDateTime timeRetry = retryLogin.getTime().plusSeconds(30);
+        var timeRetry = retryLogin.getTime().plusSeconds(30);
 
         log.info("time-retry: ",timeRetry);
         log.info("time-current: ", LocalDateTime.now());
