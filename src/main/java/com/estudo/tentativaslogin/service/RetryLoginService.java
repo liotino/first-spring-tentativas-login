@@ -36,7 +36,7 @@ public class RetryLoginService {
                 getSizeRetry(retryLogin.getDocumentNumber());
                 log.info("Cpf Data nascimento Igual ok 200 add{}",retryLogin);
 
-            }else {
+            }else{
 
                 log.error("Cpf Igual data nascimento nao 400 error add{}", retryLogin);
                 reytryLoginTimes(retryLogin);
