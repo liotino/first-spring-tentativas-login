@@ -122,6 +122,13 @@ public class RetryLoginService {
         var retryLogin = retryLogins.stream().reduce((a, b) -> b)
                 .orElse(null);
 
+
+        var seconds = retryLogin.getTime().getSecond();
+        var currentSecond = LocalDateTime.now().plusSeconds(30).getSecond();
+
+        log.info("seconds: ",seconds);
+        log.info("currentSeconds: ", currentSecond);
+
         if(retryLogin.getTime().isBefore(LocalDateTime.now().plusSeconds(30))) {
 
             retryLoginRepository.removeAllByDocumentNumber(retryLogins);
@@ -131,6 +138,7 @@ public class RetryLoginService {
         }else{
 
             log.info("Obj retry Antes False login travado : {}",retryLogin);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Numero tentativas excedeu...aguardar");
 
         }
 
