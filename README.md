@@ -37,5 +37,5 @@ curl --location 'http://localhost:8080/add' \
 }'
 ```
 ### Observabilidade
-###### Salvando od Logs no ELK (Elastic Search,Logsash) visualizacao no Kibana
+###### Salvando os Logs no ELK (Elastic Search,Logsash) visualizacao no Kibana
 ![screenshot-2](screenshot-2.png)
