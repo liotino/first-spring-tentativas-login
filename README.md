@@ -24,7 +24,7 @@ curl --location 'http://localhost:8080/add' \
 }'
 ```
 
-####Request (Force  400 Bad Request birthDate data errada)
+####Request (Force  400 Bad Request birthDate data incorreta)
 ###### Tres(3) tentativas a trava sera ligada
 
 ```
@@ -33,6 +33,6 @@ curl --location 'http://localhost:8080/add' \
 --data '{
 "count": 0,
 "documentNumber": "00000000001",
-"birthDate":"2023-10-**09**"
+"birthDate":"2023-10-09"
 }'
 ```
