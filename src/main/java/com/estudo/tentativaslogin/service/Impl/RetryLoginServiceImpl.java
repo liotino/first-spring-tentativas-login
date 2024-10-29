@@ -59,24 +59,19 @@ public class RetryLoginServiceImpl implements RetryLoginService {
                  retryLoginDTO.setBirthDate(retryLogin.getBirthDate());
                  retryLoginDTO.setZipcode(address.getZipcode());
 
-                 log.info("Cpf Data nascimento Igual ok 200 add{}",retryLogin);
+                 log.info("Credencias Data Nascimento ok 200-HTTP add{}",retryLoginDTO);
 
                  return retryLoginDTO;
 
                 }catch (FeignException fe) {
 
-                   log.error("Error request {}",fe.getMessage());
+                   log.error("Error request {} {}",fe.getMessage(),"status code " + fe.status());
                    throw fe;
-
-                }catch (Exception e) {
-
-                    log.error("Error request {}",e.getMessage());
-                    throw e;
                 }
 
             }else{
 
-                log.error("Cpf Igual data nascimento nao 400 error add{}", retryLogin);
+                log.error("Credencias Data Nascimento Invalida  400-HTTP error {}", retryLogin);
                 reytryLoginTimes(retryLogin);
 
             }
@@ -85,7 +80,7 @@ public class RetryLoginServiceImpl implements RetryLoginService {
 
         if(!retryLogin.getDocumentNumber().equals(cpf)) {
 
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dados Invalidos");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Credencias CPF Invalido 400HTTP error {}");
 
         }
 
@@ -177,12 +172,12 @@ public class RetryLoginServiceImpl implements RetryLoginService {
 
             retryLoginRepository.removeAllByDocumentNumber(retryLogins);
 
-            log.info("Obj retry Depois True destrava login : {}",retryLogin);
+            log.info("Credencial Valida! destravado o login : {}",retryLogin);
 
         }else{
 
-            log.info("Obj retry Antes False login travado : {}",retryLogin);
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Numero tentativas excedeu ...aguardar: " + retryTimeBlockLogin + "seconds");
+            log.info("Credencial Invalida ! Login Travado : {}",retryLogin);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Numero tentativas excedeu limite ...aguardar: " + retryTimeBlockLogin + " seconds");
 
         }
 
