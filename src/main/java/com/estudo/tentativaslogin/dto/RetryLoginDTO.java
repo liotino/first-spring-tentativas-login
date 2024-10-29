@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @Setter
 public class RetryLoginDTO {
 
-    private String id;
     private String documentNumber;
     private String zipcode;
     private LocalDate birthDate;

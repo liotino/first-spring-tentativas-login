@@ -59,7 +59,7 @@ public class RetryLoginServiceImpl implements RetryLoginService {
                  retryLoginDTO.setBirthDate(retryLogin.getBirthDate());
                  retryLoginDTO.setZipcode(address.getZipcode());
 
-                log.info("Cpf Data nascimento Igual ok 200 add{}",retryLogin);
+                 log.info("Cpf Data nascimento Igual ok 200 add{}",retryLogin);
 
                  return retryLoginDTO;
 
@@ -72,7 +72,6 @@ public class RetryLoginServiceImpl implements RetryLoginService {
 
                     log.error("Error request {}",e.getMessage());
                     throw e;
-
                 }
 
             }else{
