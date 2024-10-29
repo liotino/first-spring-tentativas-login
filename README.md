@@ -36,3 +36,6 @@ curl --location 'http://localhost:8080/add' \
 "birthDate":"2023-10-09"
 }'
 ```
+### Observabilidade
+###### Salvando od Logs no ELK (Elastic Search,Logsash)
+![screenshot-2](screenshot-2.png)
