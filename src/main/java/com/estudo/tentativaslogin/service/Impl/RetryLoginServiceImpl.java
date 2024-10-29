@@ -1,8 +1,12 @@
 package com.estudo.tentativaslogin.service.Impl;
 
+import com.estudo.tentativaslogin.client.AddessClient;
+import com.estudo.tentativaslogin.domain.Address;
 import com.estudo.tentativaslogin.domain.RetryLogin;
+import com.estudo.tentativaslogin.dto.RetryLoginDTO;
 import com.estudo.tentativaslogin.repository.RetryLoginRepository;
 import com.estudo.tentativaslogin.service.RetryLoginService;
+import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,14 +35,45 @@ public class RetryLoginServiceImpl implements RetryLoginService {
     @Autowired
     RetryLoginRepository retryLoginRepository;
 
-    public void process(RetryLogin retryLogin) {
+    @Autowired
+    AddessClient client;
+
+    public RetryLoginDTO process(RetryLogin retryLogin) {
+
+        RetryLoginDTO retryLoginDTO = null;
 
         if(retryLogin.getDocumentNumber().equals(cpf)) {
 
             if(retryLogin.getBirthDate().equals(LocalDate.parse(birthDate))) {
 
                 getSizeRetry(retryLogin.getDocumentNumber());
+
+                try {
+
+                 var response = client.getAddress(retryLogin.getDocumentNumber());
+                 Address address = response.getBody();
+
+                 retryLoginDTO = new RetryLoginDTO();
+                 retryLoginDTO.setDocumentNumber(retryLogin.getDocumentNumber());
+                 retryLoginDTO.setTime(LocalDateTime.now());
+                 retryLoginDTO.setBirthDate(retryLogin.getBirthDate());
+                 retryLoginDTO.setZipcode(address.getZipcode());
+
                 log.info("Cpf Data nascimento Igual ok 200 add{}",retryLogin);
+
+                 return retryLoginDTO;
+
+                }catch (FeignException fe) {
+
+                   log.error("Error request {}",fe.getMessage());
+                   throw fe;
+
+                }catch (Exception e) {
+
+                    log.error("Error request {}",e.getMessage());
+                    throw e;
+
+                }
 
             }else{
 
@@ -46,6 +81,7 @@ public class RetryLoginServiceImpl implements RetryLoginService {
                 reytryLoginTimes(retryLogin);
 
             }
+
         }
 
         if(!retryLogin.getDocumentNumber().equals(cpf)) {
@@ -53,6 +89,8 @@ public class RetryLoginServiceImpl implements RetryLoginService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dados Invalidos");
 
         }
+
+        return retryLoginDTO;
     }
 
     private void reytryLoginTimes(RetryLogin retryLogin) {
