@@ -1,12 +1,12 @@
 ##Projeto Tentativas de Login (Backend)
 
-Contempla uma trava para login incorreto. Caso o usuario tente entrar com a credencial (data de nascimento) incorreta mais de trez vezes (3), o sistema travara o login por 30 segundos para posterior nova tentativa.
+Contempla uma trava para login incorreto. Caso o usuario tente entrar com a credencial (data de nascimento) incorreta mais de tres vezes (3), o sistema travara o login por 30 segundos para posterior nova tentativa.
 
 ####Stack de Tecnologias
 
 * Java 11
 * MongoDB
-* ELK (Elastic Search,Logstach,Kibana)
+* ELK (Elastic Search,Logstash,Kibana)
 
 ![screenshot](screenshot.png)
 
@@ -37,5 +37,5 @@ curl --location 'http://localhost:8080/add' \
 }'
 ```
 ### Observabilidade
-###### Salvando os Logs no ELK (Elastic Search,Logsash) visualizacao no Kibana
+###### Salvando os Logs no ELK (Elastic Search,Logstash) visualizacao no Kibana
 ![screenshot-2](screenshot-2.png)
