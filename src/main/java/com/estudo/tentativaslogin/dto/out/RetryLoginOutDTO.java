@@ -1,4 +1,4 @@
-package com.estudo.tentativaslogin.dto;
+package com.estudo.tentativaslogin.dto.out;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-public class RetryLoginDTO {
+public class RetryLoginOutDTO {
 
     private String documentNumber;
     private String zipcode;

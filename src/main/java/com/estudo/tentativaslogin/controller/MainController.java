@@ -1,7 +1,8 @@
 package com.estudo.tentativaslogin.controller;
 
 import com.estudo.tentativaslogin.domain.RetryLogin;
-import com.estudo.tentativaslogin.dto.RetryLoginDTO;
+import com.estudo.tentativaslogin.dto.in.RetryLoginInDTO;
+import com.estudo.tentativaslogin.dto.out.RetryLoginOutDTO;
 import com.estudo.tentativaslogin.service.RetryLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,9 @@ public class MainController {
    RetryLoginService service;
 
    @PostMapping("/add")
-   public ResponseEntity<RetryLoginDTO> add(@RequestBody RetryLogin retryLogin) {
+   public ResponseEntity<RetryLoginOutDTO> add(@RequestBody RetryLoginInDTO retryLoginInDTO) {
 
-       return ResponseEntity.ok( service.process(retryLogin));
+       return ResponseEntity.ok( service.process(retryLoginInDTO));
    }
 
 }
