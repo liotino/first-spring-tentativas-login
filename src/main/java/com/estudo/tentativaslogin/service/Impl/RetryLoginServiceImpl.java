@@ -3,7 +3,8 @@ package com.estudo.tentativaslogin.service.Impl;
 import com.estudo.tentativaslogin.client.AddessClient;
 import com.estudo.tentativaslogin.domain.Address;
 import com.estudo.tentativaslogin.domain.RetryLogin;
-import com.estudo.tentativaslogin.dto.RetryLoginDTO;
+import com.estudo.tentativaslogin.dto.in.RetryLoginInDTO;
+import com.estudo.tentativaslogin.dto.out.RetryLoginOutDTO;
 import com.estudo.tentativaslogin.repository.RetryLoginRepository;
 import com.estudo.tentativaslogin.service.RetryLoginService;
 import feign.FeignException;
@@ -38,9 +39,14 @@ public class RetryLoginServiceImpl implements RetryLoginService {
     @Autowired
     AddessClient client;
 
-    public RetryLoginDTO process(RetryLogin retryLogin) {
+    public RetryLoginOutDTO process(RetryLoginInDTO retryLoginInDTO) {
 
-        RetryLoginDTO retryLoginDTO = null;
+        RetryLogin retryLogin = new RetryLogin();
+        retryLogin.setCount(retryLoginInDTO.getCount());
+        retryLogin.setDocumentNumber(retryLoginInDTO.getDocumentNumber());
+        retryLogin.setBirthDate(retryLoginInDTO.getBirthDate());
+
+        RetryLoginOutDTO retryLoginOutDTO = null;
 
         if(retryLogin.getDocumentNumber().equals(cpf)) {
 
@@ -53,15 +59,15 @@ public class RetryLoginServiceImpl implements RetryLoginService {
                  var response = client.getAddress(retryLogin.getDocumentNumber());
                  Address address = response.getBody();
 
-                 retryLoginDTO = new RetryLoginDTO();
-                 retryLoginDTO.setDocumentNumber(retryLogin.getDocumentNumber());
-                 retryLoginDTO.setTime(LocalDateTime.now());
-                 retryLoginDTO.setBirthDate(retryLogin.getBirthDate());
-                 retryLoginDTO.setZipcode(address.getZipcode());
+                 retryLoginOutDTO = new RetryLoginOutDTO();
+                 retryLoginOutDTO.setDocumentNumber(retryLogin.getDocumentNumber());
+                 retryLoginOutDTO.setTime(LocalDateTime.now());
+                 retryLoginOutDTO.setBirthDate(retryLogin.getBirthDate());
+                 retryLoginOutDTO.setZipcode(address.getZipcode());
 
-                 log.info("Credencias Data Nascimento ok 200-HTTP add{}",retryLoginDTO);
+                 log.info("Credencias Data Nascimento ok 200-HTTP add{}", retryLoginOutDTO);
 
-                 return retryLoginDTO;
+                 return retryLoginOutDTO;
 
                 }catch (FeignException fe) {
 
@@ -84,7 +90,7 @@ public class RetryLoginServiceImpl implements RetryLoginService {
 
         }
 
-        return retryLoginDTO;
+        return retryLoginOutDTO;
     }
 
     private void reytryLoginTimes(RetryLogin retryLogin) {

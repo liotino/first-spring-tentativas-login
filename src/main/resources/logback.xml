@@ -6,7 +6,7 @@
 
     <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <param name="Encoding" value="UTF-8"/>
-        <remoteHost>192.168.1.106</remoteHost>
+        <remoteHost>192.168.1.104</remoteHost>
         <port>5000</port>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <customFields>{"app_name":"FirstSpringTentativasLogin","app_port":"8080"}</customFields>

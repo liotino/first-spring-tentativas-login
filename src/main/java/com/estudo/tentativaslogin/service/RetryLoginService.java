@@ -1,10 +1,10 @@
 package com.estudo.tentativaslogin.service;
 
-import com.estudo.tentativaslogin.domain.RetryLogin;
-import com.estudo.tentativaslogin.dto.RetryLoginDTO;
+import com.estudo.tentativaslogin.dto.in.RetryLoginInDTO;
+import com.estudo.tentativaslogin.dto.out.RetryLoginOutDTO;
 
 public interface RetryLoginService {
 
-    RetryLoginDTO process(RetryLogin retryLogin);
+    RetryLoginOutDTO process(RetryLoginInDTO retryLoginInDTO);
 
 }
